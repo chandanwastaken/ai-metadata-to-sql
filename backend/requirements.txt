@@ -1,0 +1,16 @@
+fastapi==0.95.2
+uvicorn[standard]==0.22.0
+sqlalchemy==2.0.21
+psycopg2-binary==2.9.7
+pydantic==1.10.8
+requests==2.31.0
+sentence-transformers==2.2.2
+chromadb==0.4.7
+pandas==2.2.2
+sqlparse==0.4.4
+python-dotenv==1.0.1
+python-multipart==0.0.6
+typing_extensions==4.7.1
+passlib[bcrypt]==1.7.4
+python-jose[cryptography]==3.3.0
+pytest==7.4.0

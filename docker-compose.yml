@@ -1,0 +1,50 @@
+version: '3.8'
+services:
+  backend:
+    build: ./backend
+    container_name: backend
+    env_file:
+      - ./backend/.env.example
+    volumes:
+      - ./backend:/app
+      - chroma_data:/data/chroma
+      - app_data:/data
+    ports:
+      - '8000:8000'
+    depends_on:
+      - chroma
+      - ollama
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    environment:
+      - BACKEND_URL=http://backend:8000
+      - TARGET_DB_CONN=${TARGET_DB_CONN}
+      - DEFAULT_SCHEMA=${DEFAULT_SCHEMA}
+    volumes:
+      - ./frontend:/app
+    ports:
+      - '8501:8501'
+    depends_on:
+      - backend
+  chroma:
+    image: chromadb/chromadb:latest
+    container_name: chroma
+    restart: unless-stopped
+    volumes:
+      - chroma_data:/data/chroma
+    ports:
+      - '8001:8001'
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    privileged: true
+    ports:
+      - '11434:11434'
+    volumes:
+      - ollama_data:/var/lib/ollama
+    restart: unless-stopped
+volumes:
+  chroma_data:
+  ollama_data:
+  app_data:
